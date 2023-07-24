@@ -23,10 +23,10 @@ State state_create(int lives){
     state->speed = 1;
     state->is_paused = false;
     state->snake = vector_create(0, (DestroyFunc)destroy_snake_node);
-    SnakeNode head = create_snake_node(SCREEN_WIDTH/2*SCALE,SCREEN_HEIGHT/2*SCALE);
+    SnakeNode head = create_snake_node(SCREEN_WIDTH/(2*SCALE),SCREEN_HEIGHT/(2*SCALE));
     vector_insert_last(state->snake, head);
-    vector_insert_last(state->snake, create_snake_node(SCREEN_WIDTH/2*SCALE-1,SCREEN_HEIGHT/2*SCALE));
-    vector_insert_last(state->snake, create_snake_node(SCREEN_WIDTH/2*SCALE-2,SCREEN_HEIGHT/2*SCALE));
+    vector_insert_last(state->snake, create_snake_node(SCREEN_WIDTH/(2*SCALE)-1,SCREEN_HEIGHT/(2*SCALE)));
+    vector_insert_last(state->snake, create_snake_node(SCREEN_WIDTH/(2*SCALE)-2,SCREEN_HEIGHT/(2*SCALE)));
     return state;
 }
 
