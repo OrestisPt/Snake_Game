@@ -22,6 +22,6 @@ int main(){
             }
         }
     }
-
+    state_destroy(state);
     interface_close();
 }
