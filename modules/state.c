@@ -50,15 +50,15 @@ bool is_game_over(State state){
     return state->is_over;
 }
 
-State state_update(State state){
+void state_update(State state){
     if(state->is_over){
-        return state;
+        return;
     }
     if(IsKeyPressed(KEY_P)){
         state->is_paused = !state->is_paused;
     }
     if(state->is_paused){
-        return state;
+        return;
     }
     SnakeNode head = (SnakeNode)vector_get_at(state->snake, 0);
     int x = get_x(head);
@@ -115,12 +115,12 @@ State state_update(State state){
             }
             if(lives == 0){
                 state->is_over = true;
-                return state;
+                return;
             }
             state_destroy(state);
             state = state_create(lives, state->highscore);
             sleep(1);
-            return state;
+            return;
         }
         set_x(node, x);
         set_y(node, y);
@@ -128,7 +128,7 @@ State state_update(State state){
         y = ynode;
         head = node;    
     }
-    return state;
+    return;
 }
 
 void stateinfo_destroy(StateInfo info){
