@@ -1,14 +1,18 @@
 #include "state.h"
 #include <unistd.h>
+#include <time.h>
+
 
 struct state{
     bool is_paused;
     bool is_over;
     int score;
     int lives;
+    time_t t;
     float speed;
     int foodx;
     int foody;
+    int foodcounter;
     int highscore;
     Vector snake;
     Direction direction;
@@ -23,6 +27,8 @@ State state_create(int lives, int highscore){
     state->score = 0;
     state->lives = lives;
     state->speed = 1;
+    state->t = 0;
+    state->foodcounter = 1;
     state->is_over = false;
     state->highscore = highscore;
     state->is_paused = false;
@@ -43,6 +49,7 @@ StateInfo state_info(State state){
     info->is_over = state->is_over;
     info->highscore = state->highscore;
     info->is_paused = state->is_paused;
+    info->foodcounter = state->foodcounter;
     return info;
 }
 
@@ -60,6 +67,12 @@ void state_update(State state){
     if(state->is_paused){
         return;
     }
+    if(state->t != 0 && difftime(time(NULL), state->t) > 3){
+        state->foodx = (rand()%(SCREEN_WIDTH/SCALE))*SCALE;
+        state->foody = (rand()%(SCREEN_HEIGHT/SCALE))*SCALE;
+        state->t =0;
+        state->foodcounter = 1;
+    }
     SnakeNode head = (SnakeNode)vector_get_at(state->snake, 0);
     int x = get_x(head);
     int y = get_y(head);
@@ -67,12 +80,29 @@ void state_update(State state){
     y = y < 0 ? SCREEN_HEIGHT + y : y % SCREEN_HEIGHT;
     int CrashHeadX = x;
     int CrashheadY = y;
-    if(x == state->foodx && y == state->foody){
-        state->score++;
-        state->foodx = (rand()%(SCREEN_WIDTH/SCALE))*SCALE;
-        state->foody = (rand()%(SCREEN_HEIGHT/SCALE))*SCALE;
-        SnakeNode node = create_snake_node(x, y);
-        vector_insert_last(state->snake, node);
+    if(state->foodcounter < 6){
+        if(x == state->foodx && y == state->foody){
+            state->score++;
+            state->foodcounter++;
+            state->foodx = (rand()%(SCREEN_WIDTH/SCALE))*SCALE;
+            state->foody = (rand()%(SCREEN_HEIGHT/SCALE))*SCALE;
+            SnakeNode node = create_snake_node(x, y);
+            vector_insert_last(state->snake, node);
+            if(state->foodcounter == 6 && state->t == 0){
+                state->t = time(NULL);
+            }
+        }
+    }
+    else{
+        if(CheckCollisionRecs((Rectangle){x, y, SCALE, SCALE}, (Rectangle){state->foodx, state->foody, SCALE*2, SCALE*2})){
+            state->score += 5;
+            state->foodcounter = 1;
+            state->t = 0;
+            state->foodx = (rand()%(SCREEN_WIDTH/SCALE - 1))*SCALE;
+            state->foody = (rand()%(SCREEN_HEIGHT/SCALE - 1))*SCALE;
+            SnakeNode node = create_snake_node(x, y);
+            vector_insert_last(state->snake, node);
+        }
     }
     if(state->direction == LEFT || state->direction == RIGHT){
         if(IsKeyPressed(KEY_UP)){

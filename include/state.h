@@ -18,6 +18,7 @@ typedef struct stateinfo {
     int speed;
     int foodx;
     int foody;  
+    int foodcounter;
     bool is_over;
     bool is_paused;
     Vector snake;

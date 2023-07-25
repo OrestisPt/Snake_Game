@@ -37,7 +37,7 @@ void interface_draw(State state){
         int y = get_y(node);
         DrawRectangle(x, y%SCREEN_HEIGHT, SCALE, SCALE, BLACK);
     }
-    DrawRectangle(info->foodx, info->foody, SCALE, SCALE, RED);
+    (info->foodcounter != 6) ? DrawRectangle(info->foodx, info->foody, SCALE, SCALE, RED) : DrawRectangle(info->foodx, info->foody, SCALE*2, SCALE*2, RED);
     if(info->is_paused){
         DrawText("Paused", SCREEN_WIDTH/2 - MeasureText("Paused", 20)/2, SCREEN_WIDTH/2 - 20, 20, BLACK);
     }
