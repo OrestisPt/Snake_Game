@@ -23,7 +23,7 @@ typedef struct stateinfo {
     Vector snake;
 }* StateInfo;
 
-State state_create(int lives);
+State state_create(int lives, int highscore);
 
 State state_update(State state);
 

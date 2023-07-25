@@ -14,7 +14,7 @@ struct state{
     Direction direction;
 };
 
-State state_create(int lives){
+State state_create(int lives, int highscore){
     srand(SCALE);
     State state = malloc(sizeof(*state));
     state->direction = RIGHT;
@@ -24,7 +24,7 @@ State state_create(int lives){
     state->lives = lives;
     state->speed = 1;
     state->is_over = false;
-    state->highscore = 0;
+    state->highscore = highscore;
     state->is_paused = false;
     state->snake = vector_create(0, (DestroyFunc)destroy_snake_node);
     SnakeNode head = create_snake_node(SCREEN_WIDTH/(2*SCALE),SCREEN_HEIGHT/(2*SCALE));
@@ -118,7 +118,7 @@ State state_update(State state){
                 return state;
             }
             state_destroy(state);
-            state = state_create(lives);
+            state = state_create(lives, state->highscore);
             sleep(1);
             return state;
         }
