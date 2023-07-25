@@ -1,5 +1,5 @@
 #include "state.h"
-#include <stdio.h>
+#include <unistd.h>
 
 struct state{
     bool is_paused;
@@ -119,6 +119,7 @@ State state_update(State state){
             }
             state_destroy(state);
             state = state_create(lives);
+            sleep(1);
             return state;
         }
         set_x(node, x);
