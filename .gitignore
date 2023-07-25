@@ -1,5 +1,7 @@
 *
 !*/
+!*.a
+libraylib.a
 !*.c
 !*.h
 !*.mk
