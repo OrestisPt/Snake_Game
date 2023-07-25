@@ -12,14 +12,16 @@ void interface_init(){
 }
 
 void interface_draw(State state){
-    if(state == NULL){
+    StateInfo info = state_info(state);
+    if(info->is_over){
         BeginDrawing();
         ClearBackground(RAYWHITE);
         DrawText("Game Over", SCREEN_WIDTH/2 - MeasureText("Game Over", 20)/2, SCREEN_WIDTH/2 - 20, 20, BLACK);
+        DrawText("Press R to restart", SCREEN_WIDTH/2 - MeasureText("Press R to restart", 20)/2, SCREEN_WIDTH/2 + 20, 20, BLACK);
+        DrawText(TextFormat("Your overall highscore was: %d", info->highscore), SCREEN_WIDTH/2 - MeasureText("Your overall highscore was:", 20)/2, SCREEN_WIDTH/2 + 60, 20, BLACK);
         EndDrawing();
         return;
     }
-    StateInfo info = state_info(state);
     int Lives = info->lives;
     int Score = info->score;
     Vector snake = info->snake;

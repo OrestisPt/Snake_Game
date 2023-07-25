@@ -13,10 +13,12 @@ typedef struct state *State;
 
 typedef struct stateinfo {
     int score;
+    int highscore;
     int lives;
     int speed;
     int foodx;
     int foody;  
+    bool is_over;
     bool is_paused;
     Vector snake;
 }* StateInfo;
@@ -30,5 +32,7 @@ void state_destroy(State state);
 StateInfo state_info(State state);
 
 void stateinfo_destroy(StateInfo info);
+
+bool is_game_over(State state);
 
 

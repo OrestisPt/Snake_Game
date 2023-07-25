@@ -3,11 +3,13 @@
 
 struct state{
     bool is_paused;
+    bool is_over;
     int score;
     int lives;
     float speed;
     int foodx;
     int foody;
+    int highscore;
     Vector snake;
     Direction direction;
 };
@@ -21,6 +23,8 @@ State state_create(int lives){
     state->score = 0;
     state->lives = lives;
     state->speed = 1;
+    state->is_over = false;
+    state->highscore = 0;
     state->is_paused = false;
     state->snake = vector_create(0, (DestroyFunc)destroy_snake_node);
     SnakeNode head = create_snake_node(SCREEN_WIDTH/(2*SCALE),SCREEN_HEIGHT/(2*SCALE));
@@ -36,11 +40,20 @@ StateInfo state_info(State state){
     info->snake = state->snake;
     info->foodx = state->foodx;
     info->foody = state->foody;
+    info->is_over = state->is_over;
+    info->highscore = state->highscore;
     info->is_paused = state->is_paused;
     return info;
 }
 
+bool is_game_over(State state){
+    return state->is_over;
+}
+
 State state_update(State state){
+    if(state->is_over){
+        return state;
+    }
     if(IsKeyPressed(KEY_P)){
         state->is_paused = !state->is_paused;
     }
@@ -97,9 +110,12 @@ State state_update(State state){
         int ynode = get_y(node);
         if(xnode == CrashHeadX && ynode == CrashheadY){
             int lives = --state->lives;
+            if(state->score > state->highscore){
+                state->highscore = state->score;
+            }
             if(lives == 0){
-                state_destroy(state);
-                return NULL;
+                state->is_over = true;
+                return state;
             }
             state_destroy(state);
             state = state_create(lives);
