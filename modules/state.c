@@ -8,7 +8,7 @@ struct state{
     bool is_over;
     int score;
     int lives;
-    time_t t;
+    time_t timer;
     float speed;
     int foodx;
     int foody;
@@ -27,7 +27,7 @@ State state_create(int lives, int highscore){
     state->score = 0;
     state->lives = lives;
     state->speed = 1;
-    state->t = 0;
+    state->timer = 0;
     state->foodcounter = 1;
     state->is_over = false;
     state->highscore = highscore;
@@ -67,10 +67,10 @@ State state_update(State state){
     if(state->is_paused){
         return state;
     }
-    if(state->t != 0 && difftime(time(NULL), state->t) > 3){
+    if(state->timer != 0 && difftime(time(NULL), state->timer) > 3){
         state->foodx = (rand()%(SCREEN_WIDTH/SCALE))*SCALE;
         state->foody = (rand()%(SCREEN_HEIGHT/SCALE))*SCALE;
-        state->t =0;
+        state->timer =0;
         state->foodcounter = 1;
     }
     SnakeNode head = (SnakeNode)vector_get_at(state->snake, 0);
@@ -88,8 +88,8 @@ State state_update(State state){
             state->foody = (rand()%(SCREEN_HEIGHT/SCALE))*SCALE;
             SnakeNode node = create_snake_node(x, y);
             vector_insert_last(state->snake, node);
-            if(state->foodcounter == 6 && state->t == 0){
-                state->t = time(NULL);
+            if(state->foodcounter == 6 && state->timer == 0){
+                state->timer = time(NULL);
             }
         }
     }
@@ -97,7 +97,7 @@ State state_update(State state){
         if(CheckCollisionRecs((Rectangle){x, y, SCALE, SCALE}, (Rectangle){state->foodx, state->foody, SCALE*2, SCALE*2})){
             state->score += 5;
             state->foodcounter = 1;
-            state->t = 0;
+            state->timer = 0;
             state->foodx = (rand()%(SCREEN_WIDTH/SCALE - 1))*SCALE;
             state->foody = (rand()%(SCREEN_HEIGHT/SCALE - 1))*SCALE;
             SnakeNode node = create_snake_node(x, y);
