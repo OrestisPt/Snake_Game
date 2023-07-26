@@ -8,7 +8,7 @@ void interface_init(){
     SetWindowIcon(LoadImage("assets/snake.png"));
     background = LoadTexture("assets/background.png");
     InitAudioDevice();
-    SetTargetFPS(10);
+    SetTargetFPS(15);
 }
 
 void interface_draw(State state){
