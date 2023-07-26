@@ -19,7 +19,6 @@ struct state{
 };
 
 State state_create(int lives, int highscore){
-    srand(time(NULL));
     State state = malloc(sizeof(*state));
     state->direction = RIGHT;
     state->foodx = (rand()%(SCREEN_WIDTH/SCALE))*SCALE;
