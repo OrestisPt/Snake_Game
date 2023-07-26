@@ -13,3 +13,4 @@ libraylib.a
 !*.html
 !README*
 !*.exe
+!config.sh
