@@ -20,6 +20,8 @@ There is also an exe version for windows users. To run it, just double click on 
 
 ## <ins> Controls: </ins>
 ``` 
+
+P - Pause/Unpause
 ESC - Quit
 Shift + R - Force Reset
 R - Reset (Only if the game is over)
