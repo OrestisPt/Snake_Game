@@ -13,7 +13,6 @@ int main(){
             state_destroy(state);
             state = state_create(3, 0);
         }
-        if(state!=NULL)
         state = state_update(state);
         interface_draw(state);
         if(is_game_over(state)){
