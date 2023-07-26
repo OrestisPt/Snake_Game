@@ -14,7 +14,7 @@ int main(){
             state = state_create(3, 0);
         }
         if(state!=NULL)
-        state_update(state);
+        state = state_update(state);
         interface_draw(state);
         if(is_game_over(state)){
             if(IsKeyPressed(KEY_R)){

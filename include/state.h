@@ -26,7 +26,7 @@ typedef struct stateinfo {
 
 State state_create(int lives, int highscore);
 
-void state_update(State state);
+State state_update(State state);
 
 void state_destroy(State state);
 

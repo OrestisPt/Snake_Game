@@ -57,15 +57,15 @@ bool is_game_over(State state){
     return state->is_over;
 }
 
-void state_update(State state){
+State state_update(State state){
     if(state->is_over){
-        return;
+        return state;
     }
     if(IsKeyPressed(KEY_P)){
         state->is_paused = !state->is_paused;
     }
     if(state->is_paused){
-        return;
+        return state;
     }
     if(state->t != 0 && difftime(time(NULL), state->t) > 3){
         state->foodx = (rand()%(SCREEN_WIDTH/SCALE))*SCALE;
@@ -145,12 +145,12 @@ void state_update(State state){
             }
             if(lives == 0){
                 state->is_over = true;
-                return;
+                return state;
             }
             state_destroy(state);
             state = state_create(lives, state->highscore);
             sleep(1);
-            return;
+            return state;
         }
         set_x(node, x);
         set_y(node, y);
@@ -158,7 +158,7 @@ void state_update(State state){
         y = ynode;
         head = node;    
     }
-    return;
+    return state;
 }
 
 void stateinfo_destroy(StateInfo info){
