@@ -13,6 +13,8 @@ cd game (If you are not in the game folder)
 make run
 ```
 
+Note: You might need to run `bash config.sh if some libraries are missing.`
+
 There is also an exe version for windows users. To run it, just double click on the file.
 (MinGw is required to run the exe file as well as an 'assets' folder with the images)
 
